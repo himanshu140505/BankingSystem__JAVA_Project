@@ -1,0 +1,36 @@
+# Banking System Project Documentation
+
+## Overview
+This project is a Java-based Banking System that provides users with functionalities such as account creation, login, deposit, withdrawal, and viewing mini-statements. It is implemented using Java's AWT and Swing libraries for the graphical user interface (GUI).
+
+## Features
+1. **Welcome Panel**: Displays a welcome message and navigation options for creating an account or logging in.
+2. **Account Creation**: Allows users to create a new account with a name, PIN, and initial deposit.
+3. **Login**: Enables users to log in using their account number and PIN.
+4. **Account Management**: Provides options for depositing, withdrawing, and viewing the account balance.
+5. **Mini-Statement**: Displays the last 10 transactions along with the initial and final balances.
+6. **Persistent Storage**: Saves account data to a file for persistence across sessions.
+
+## How to Run
+1. Compile all Java files using `javac *.java`.
+2. Run the `BankingApplet` class using `java BankingApplet`.
+3. Alternatively, open `applet.html` in a browser that supports Java Applets.
+
+## Evidence of Contribution
+- **Code Comments**: Inline comments in the code explain the logic and implementation details.
+- **Console Logs**: Account creation logs the account number to the console.
+- **Footer Credits**: The footer in the `WelcomePanel` explicitly mentions "© Himanshu & Anjali" as the project owners.
+- **Unique Features**: The project includes features like mini-statements and persistent storage, which were implemented as part of this work.
+
+## Unsaid Proofs
+- The `Account` class includes a `serialVersionUID` for serialization, demonstrating attention to detail.
+- The `Bank` class uses a `UUID` to generate unique account numbers, ensuring no duplicates.
+- The `MiniStatementPanel` dynamically calculates and displays the last 10 transactions, showcasing advanced logic.
+- The `CreateAccountPanel` validates user input for name, PIN, and deposit amount, ensuring robustness.
+
+## Additional Notes
+- The project adheres to modular design principles, with separate panels for each functionality.
+- The use of `CardLayout` in `BankingApplet` ensures smooth transitions between panels.
+- The `DataStorage` class handles file operations, abstracting persistence logic from the main application.
+
+This documentation should provide a comprehensive understanding of the project and its implementation.
