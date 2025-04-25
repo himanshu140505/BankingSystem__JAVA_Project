@@ -1,21 +1,23 @@
 package BankingSystem_JAVA_Project;
+
 import java.awt.*;
 import java.awt.event.*;
 
-public class AccountPanel extends Panel implements ActionListener {
+public class AccountPanel extends Panel implements ActionListener, FocusListener {
     private Label welcomeLabel, balanceLabel, messageLabel;
     private TextField amountField;
     private Button depositBtn, withdrawBtn, logoutBtn;
 
     private BankingApplet applet;
-    private Bank bank;
     private Account account;
 
-    public AccountPanel(BankingApplet applet, Bank bank) {
-        this.applet = applet;
-        this.bank = bank;
+    private final String PLACEHOLDER_TEXT = "Enter amount";
+    private boolean isPlaceholderVisible = true;
 
-        setLayout(new GridLayout(6, 1, 10, 10));
+    public AccountPanel(BankingApplet applet) {
+        this.applet = applet;
+
+        setLayout(new GridLayout(7, 1, 10, 10));
 
         welcomeLabel = new Label("Welcome!");
         add(welcomeLabel);
@@ -23,8 +25,9 @@ public class AccountPanel extends Panel implements ActionListener {
         balanceLabel = new Label("Balance: ₹0.00");
         add(balanceLabel);
 
-        amountField = new TextField();
-        amountField.setPlaceholder("Enter amount");
+        amountField = new TextField(PLACEHOLDER_TEXT);
+        amountField.setForeground(Color.GRAY);
+        amountField.addFocusListener(this);
         add(amountField);
 
         depositBtn = new Button("Deposit");
@@ -43,26 +46,28 @@ public class AccountPanel extends Panel implements ActionListener {
         add(messageLabel);
     }
 
-    // Called by applet after login to set the current account
+    // Called after login
     public void setAccount(Account acc) {
         this.account = acc;
         welcomeLabel.setText("Welcome, " + acc.getName());
         updateBalance();
         messageLabel.setText("");
+        resetAmountField();
     }
 
     private void updateBalance() {
-        balanceLabel.setText("Balance: ₹" + account.getBalance());
+        balanceLabel.setText("Balance: ₹" + String.format("%.2f", account.getBalance()));
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
-        String amtText = amountField.getText().trim();
-        double amount;
-
         if (e.getSource() == logoutBtn) {
             applet.switchTo("login");
             return;
         }
+
+        String amtText = amountField.getText().trim();
+        double amount;
 
         try {
             amount = Double.parseDouble(amtText);
@@ -76,18 +81,44 @@ public class AccountPanel extends Panel implements ActionListener {
             return;
         }
 
+        boolean success = false;
+
         if (e.getSource() == depositBtn) {
-            account.deposit(amount);
-            messageLabel.setText("Deposited ₹" + amount);
+            success = applet.getBank().deposit(account.getAccountNumber(), amount);
+            messageLabel.setText(success ? "Deposited ₹" + amount : "Deposit failed.");
         } else if (e.getSource() == withdrawBtn) {
-            if (account.withdraw(amount)) {
-                messageLabel.setText("Withdrawn ₹" + amount);
-            } else {
-                messageLabel.setText("Not enough balance.");
-            }
+            success = applet.getBank().withdraw(account.getAccountNumber(), amount);
+            messageLabel.setText(success ? "Withdrawn ₹" + amount : "Not enough balance.");
         }
 
-        updateBalance();
-        amountField.setText("");
+        if (success) {
+            account = applet.getBank().getAccount(account.getAccountNumber()); // refresh reference
+            updateBalance();
+        }
+
+        resetAmountField();
+    }
+
+    // Placeholder handling
+    @Override
+    public void focusGained(FocusEvent e) {
+        if (isPlaceholderVisible) {
+            amountField.setText("");
+            amountField.setForeground(Color.BLACK);
+            isPlaceholderVisible = false;
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (amountField.getText().isEmpty()) {
+            resetAmountField();
+        }
+    }
+
+    private void resetAmountField() {
+        amountField.setText(PLACEHOLDER_TEXT);
+        amountField.setForeground(Color.GRAY);
+        isPlaceholderVisible = true;
     }
 }

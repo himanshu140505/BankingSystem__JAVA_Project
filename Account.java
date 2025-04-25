@@ -1,6 +1,7 @@
 package BankingSystem_JAVA_Project;
+
 public class Account {
-    private int accountNumber;
+    private final int accountNumber;
     private String name;
     private String pin;
     private double balance;
@@ -9,7 +10,7 @@ public class Account {
         this.accountNumber = accountNumber;
         this.name = name;
         this.pin = pin;
-        this.balance = balance;
+        this.balance = Math.max(0, balance); // Ensure balance is non-negative
     }
 
     public int getAccountNumber() {
@@ -20,8 +21,20 @@ public class Account {
         return name;
     }
 
+    public void setName(String newName) {
+        if (newName != null && !newName.trim().isEmpty()) {
+            this.name = newName.trim();
+        }
+    }
+
     public boolean checkPin(String enteredPin) {
-        return pin.equals(enteredPin);
+        return pin != null && pin.equals(enteredPin);
+    }
+
+    public void setPin(String newPin) {
+        if (newPin != null && newPin.length() >= 4) {
+            this.pin = newPin;
+        }
     }
 
     public double getBalance() {
@@ -29,15 +42,25 @@ public class Account {
     }
 
     public void deposit(double amount) {
-        balance += amount;
+        if (amount > 0) {
+            balance += amount;
+        }
     }
 
     public boolean withdraw(double amount) {
-        if (balance >= amount) {
+        if (amount > 0 && balance >= amount) {
             balance -= amount;
             return true;
-        } else {
-            return false;
         }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "AccountNumber=" + accountNumber +
+                ", Name='" + name + '\'' +
+                ", Balance=₹" + String.format("%.2f", balance) +
+                '}';
     }
 }

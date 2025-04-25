@@ -1,4 +1,4 @@
-package BankingSystem-JAVA_Project;
+package BankingSystem__JAVA_Project;
 
 public class Utils {
 

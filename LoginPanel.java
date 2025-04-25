@@ -1,4 +1,5 @@
 package BankingSystem_JAVA_Project;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -13,7 +14,7 @@ public class LoginPanel extends Panel implements ActionListener {
         this.applet = applet;
         this.bank = bank;
 
-        setLayout(new GridLayout(4, 2, 10, 10));
+        setLayout(new GridLayout(5, 2, 10, 10));
 
         add(new Label("Account Number:"));
         accountNumberField = new TextField();
@@ -35,8 +36,12 @@ public class LoginPanel extends Panel implements ActionListener {
         messageLabel = new Label("");
         messageLabel.setForeground(Color.RED);
         add(messageLabel);
+
+        // Fill remaining cell in layout if needed
+        add(new Label(""));
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
             String accountNumberStr = accountNumberField.getText().trim();
@@ -58,14 +63,12 @@ public class LoginPanel extends Panel implements ActionListener {
             Account account = bank.getAccount(accountNumber);
 
             if (account != null && account.checkPin(pin)) {
-                applet.switchTo("account");
-                applet.getAccountPanel().setAccount(account);
+                applet.getAccountPanel().setAccount(account); // Set current account
+                applet.switchTo("account");                   // Show account panel
             } else {
                 messageLabel.setText("Invalid account number or PIN.");
             }
-        }
-
-        if (e.getSource() == backButton) {
+        } else if (e.getSource() == backButton) {
             applet.switchTo("createAccount");
         }
     }
