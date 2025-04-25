@@ -14,6 +14,8 @@ public class BankingApplet extends JFrame {
     private LoginPanel loginPanel;
     private CreateAccountPanel createAccountPanel;
     private AccountPanel accountPanel;
+    private MiniStatementPanel miniStatementPanel; // Add MiniStatementPanel
+    private WelcomePanel welcomePanel; // Add WelcomePanel
     private Bank bank;
 
     public BankingApplet() {
@@ -21,13 +23,17 @@ public class BankingApplet extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
+        welcomePanel = new WelcomePanel(this); // Initialize WelcomePanel
         loginPanel = new LoginPanel(this, bank);
         createAccountPanel = new CreateAccountPanel(this, bank);
         accountPanel = new AccountPanel(this, bank);
+        miniStatementPanel = new MiniStatementPanel(this); // Initialize MiniStatementPanel
 
+        mainPanel.add(welcomePanel, "Welcome"); // Add WelcomePanel
         mainPanel.add(loginPanel, "Login");
         mainPanel.add(createAccountPanel, "CreateAccount");
         mainPanel.add(accountPanel, "Account");
+        mainPanel.add(miniStatementPanel, "MiniStatement"); // Add MiniStatementPanel
 
         setLayout(new BorderLayout());
         add(mainPanel, BorderLayout.CENTER);
@@ -37,7 +43,7 @@ public class BankingApplet extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-        showPanel("Login");
+        showPanel("Welcome"); // Start with Welcome panel
     }
 
     public void showPanel(String panelName) {
@@ -48,7 +54,11 @@ public class BankingApplet extends JFrame {
         return accountPanel;
     }
 
+    public MiniStatementPanel getMiniStatementPanel() {
+        return miniStatementPanel;
+    }
+
     public static void main(String[] args) {
-        new BankingApplet();
+        new BankingApplet(); // Correctly place the main method
     }
 }

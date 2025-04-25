@@ -35,8 +35,25 @@ public class AccountPanel extends Panel {
         add(withdrawButton);
 
         Button logoutButton = new Button("Logout");
-        logoutButton.addActionListener(e -> applet.showPanel("Login"));
+        logoutButton.addActionListener(e -> {
+            applet.showPanel("Login");
+            amountField.setText(""); // Clear the amount field
+            currentAccount = null;   // Reset the current account
+        });
         add(logoutButton);
+
+        Button miniStatementButton = new Button("Mini Statement");
+        miniStatementButton.addActionListener(e -> {
+            if (currentAccount != null) {
+                applet.getMiniStatementPanel().displayStatement(
+                    currentAccount.getAccountHolderName(),
+                    currentAccount.getAccountNumber(),
+                    currentAccount.getTransactionHistory()
+                );
+                applet.showPanel("MiniStatement");
+            }
+        });
+        add(miniStatementButton);
     }
 
     public void setAccount(Account account) {
@@ -60,6 +77,7 @@ public class AccountPanel extends Panel {
             if (amount > 0) {
                 currentAccount.deposit(amount);
                 refreshBalance();
+                amountField.setText(""); // Clear the field after deposit
             } else {
                 System.out.println("Amount must be greater than 0.");
             }
@@ -74,6 +92,7 @@ public class AccountPanel extends Panel {
             if (amount > 0) {
                 if (currentAccount.withdraw(amount)) {
                     refreshBalance();
+                    amountField.setText(""); // Clear the field after withdrawal
                 } else {
                     System.out.println("Insufficient balance.");
                 }

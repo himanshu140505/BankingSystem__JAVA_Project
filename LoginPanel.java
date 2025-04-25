@@ -60,7 +60,7 @@ public class LoginPanel extends Panel implements ActionListener {
 
             if (account != null && account.checkPin(pin)) {
                 applet.getAccountPanel().setAccount(account);
-                applet.showPanel("Account");
+                applet.showPanel("Account"); // Transition to Account panel after login
             } else {
                 messageLabel.setText("Invalid account number or PIN.");
             }

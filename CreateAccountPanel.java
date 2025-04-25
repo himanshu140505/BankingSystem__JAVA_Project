@@ -83,7 +83,10 @@ public class CreateAccountPanel extends Panel implements ActionListener {
 
             String accNo = bank.createAccount(name, pin, deposit);
             msgLabel.setForeground(Color.BLUE);
-            msgLabel.setText("Account created! ID: " + accNo);
+            msgLabel.setText("Account created! Your Account Number: " + accNo);
+            // Optionally, log the account number to the console
+            System.out.println("Account created successfully. Account Number: " + accNo);
+            applet.showPanel("Login"); // Transition to Login panel after account creation
 
             // Clear fields after creation
             nameField.setText("");

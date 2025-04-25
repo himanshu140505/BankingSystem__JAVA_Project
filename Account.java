@@ -1,10 +1,16 @@
 package BankingSystem__JAVA_Project;
 
-public class Account {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Account implements Serializable {
+    private static final long serialVersionUID = 1L; // Add serialVersionUID for serialization
     private String accountNumber;
     private String accountHolderName;
     private String pin;
     private double balance;
+    private List<String> transactionHistory = new ArrayList<>();
 
     public Account(String accountNumber, String accountHolderName, String pin, double initialBalance) {
         this.accountNumber = accountNumber;
@@ -32,12 +38,14 @@ public class Account {
     public void deposit(double amount) {
         if (amount > 0) {
             balance += amount;
+            transactionHistory.add("Deposited: " + amount);
         }
     }
 
     public boolean withdraw(double amount) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
+            transactionHistory.add("Withdrew: " + amount);
             return true;
         }
         return false;
@@ -45,5 +53,9 @@ public class Account {
 
     public boolean checkPin(String inputPin) {
         return pin.equals(inputPin);
+    }
+
+    public List<String> getTransactionHistory() {
+        return transactionHistory;
     }
 }
