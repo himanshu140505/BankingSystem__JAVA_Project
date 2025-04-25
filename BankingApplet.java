@@ -2,7 +2,7 @@ package BankingSystem_JAVA_Project;
 
 import java.applet.Applet;
 import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JOptionPane;
 
 public class BankingApplet extends Applet {
     private CardLayout cardLayout;
@@ -100,5 +100,9 @@ public class BankingApplet extends Applet {
     public void paint(Graphics g) {
         super.paint(g);
         // Optional: add custom UI paint if needed
+    }
+
+    public AccountPanel getAccountPanel() {
+        return accountPanel;
     }
 }
