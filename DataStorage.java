@@ -1,4 +1,4 @@
-package BankingSystem_JAVA_Project;
+package BankingSystem__JAVA_Project;
 
 import java.io.*;
 import java.util.*;

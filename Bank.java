@@ -23,7 +23,6 @@ public class Bank {
     public boolean createAccount(String accountNumber, String accountHolderName, double initialBalance) {
         if (!accounts.containsKey(accountNumber)) {
             accounts.put(accountNumber, new Account(accountNumber, accountHolderName, initialBalance));
-            saveAccounts();
             return true;
         }
         return false;
