@@ -1,40 +1,22 @@
 package BankingSystem_JAVA_Project;
 
 public class Account {
-    private final int accountNumber;
-    private String name;
-    private String pin;
+    private String accountNumber;
+    private String accountHolderName;
     private double balance;
 
-    public Account(int accountNumber, String name, String pin, double balance) {
+    public Account(String accountNumber, String accountHolderName, double initialBalance) {
         this.accountNumber = accountNumber;
-        this.name = name;
-        this.pin = pin;
-        this.balance = Math.max(0, balance); // Ensure balance is non-negative
+        this.accountHolderName = accountHolderName;
+        this.balance = initialBalance;
     }
 
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String newName) {
-        if (newName != null && !newName.trim().isEmpty()) {
-            this.name = newName.trim();
-        }
-    }
-
-    public boolean checkPin(String enteredPin) {
-        return pin != null && pin.equals(enteredPin);
-    }
-
-    public void setPin(String newPin) {
-        if (newPin != null && newPin.length() >= 4) {
-            this.pin = newPin;
-        }
+    public String getAccountHolderName() {
+        return accountHolderName;
     }
 
     public double getBalance() {
@@ -48,19 +30,10 @@ public class Account {
     }
 
     public boolean withdraw(double amount) {
-        if (amount > 0 && balance >= amount) {
+        if (amount > 0 && amount <= balance) {
             balance -= amount;
             return true;
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "AccountNumber=" + accountNumber +
-                ", Name='" + name + '\'' +
-                ", Balance=₹" + String.format("%.2f", balance) +
-                '}';
     }
 }

@@ -1,45 +1,38 @@
 package BankingSystem_JAVA_Project;
 
-import javax.swing.*;
+import java.applet.Applet;
 import java.awt.*;
+import java.awt.event.*;
 
-public class BankingApplet extends JApplet {
-
+public class BankingApplet extends Applet {
     private CardLayout cardLayout;
-    private JPanel cards;
-    private Bank bank;
-    private AccountPanel accountPanel;
+    private Panel mainPanel;
     private LoginPanel loginPanel;
     private CreateAccountPanel createAccountPanel;
+    private AccountPanel accountPanel;
+    private Bank bank;
 
-    @Override
     public void init() {
-        // Initialize the bank object (load accounts from file)
         bank = new Bank();
-
-        // Initialize CardLayout and main card container
         cardLayout = new CardLayout();
-        cards = new JPanel(cardLayout);
+        mainPanel = new Panel(cardLayout);
 
-        // Initialize panels and pass required references
         loginPanel = new LoginPanel(this, bank);
-        accountPanel = new AccountPanel(this, bank);
         createAccountPanel = new CreateAccountPanel(this, bank);
+        accountPanel = new AccountPanel(this, bank);
 
-        // Add panels to cards
-        cards.add(loginPanel, "login");
-        cards.add(accountPanel, "account");
-        cards.add(createAccountPanel, "createAccount");
+        mainPanel.add("Login", loginPanel);
+        mainPanel.add("CreateAccount", createAccountPanel);
+        mainPanel.add("Account", accountPanel);
 
-        // Set the layout and show login screen
         setLayout(new BorderLayout());
-        add(cards, BorderLayout.CENTER);
-        cardLayout.show(cards, "login");
+        add(mainPanel, BorderLayout.CENTER);
+
+        cardLayout.show(mainPanel, "Login");
     }
 
-    // Switch to specific panel
-    public void switchTo(String panelName) {
-        cardLayout.show(cards, panelName);
+    public void showPanel(String panelName) {
+        cardLayout.show(mainPanel, panelName);
     }
 
     // Set the current account in AccountPanel after login
@@ -56,7 +49,7 @@ public class BankingApplet extends JApplet {
         Account account = bank.getAccount(accountNumber);
         if (account != null && account.checkPin(pin)) {
             setAccountPanel(account);
-            switchTo("account");
+            showPanel("Account");
         } else {
             JOptionPane.showMessageDialog(this, "Invalid account number or PIN!", "Login Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -68,7 +61,7 @@ public class BankingApplet extends JApplet {
             int accountNumber = bank.createAccount(name, pin, initialDeposit);
             if (accountNumber != -1) {
                 JOptionPane.showMessageDialog(this, "Account created! ID: " + accountNumber, "Success", JOptionPane.INFORMATION_MESSAGE);
-                switchTo("login");
+                showPanel("Login");
             } else {
                 JOptionPane.showMessageDialog(this, "Error creating account.", "Error", JOptionPane.ERROR_MESSAGE);
             }

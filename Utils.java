@@ -13,8 +13,8 @@ public class Utils {
     }
 
     // Validates if a string is a valid account number format (e.g., numeric and 4 digits)
-    public static boolean isValidAccountNumber(String str) {
-        return str.length() == 4 && isNumeric(str);
+    public static boolean isValidAccountNumber(String accountNumber) {
+        return accountNumber.matches("\\d+");
     }
 
     // Validates if a string is a valid PIN format (e.g., numeric and 4 digits)
@@ -28,8 +28,13 @@ public class Utils {
     }
 
     // Checks if an amount is valid for deposit or withdrawal (positive and not zero)
-    public static boolean isValidAmount(double amount) {
-        return amount > 0;
+    public static boolean isValidAmount(String amount) {
+        try {
+            double value = Double.parseDouble(amount);
+            return value > 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     // Validates a name to ensure it's not empty and contains only valid characters

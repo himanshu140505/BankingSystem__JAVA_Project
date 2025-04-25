@@ -14,13 +14,17 @@ public class LoginPanel extends Panel implements ActionListener {
         this.applet = applet;
         this.bank = bank;
 
-        setLayout(new GridLayout(5, 2, 10, 10));
+        setLayout(new GridLayout(3, 2));
 
-        add(new Label("Account Number:"));
+        Label accountLabel = new Label("Account Number:");
+        add(accountLabel);
+
         accountNumberField = new TextField();
         add(accountNumberField);
 
-        add(new Label("PIN (4 digits):"));
+        Label pinLabel = new Label("PIN (4 digits):");
+        add(pinLabel);
+
         pinField = new TextField();
         pinField.setEchoChar('*');
         add(pinField);
