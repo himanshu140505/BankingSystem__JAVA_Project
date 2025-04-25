@@ -1,13 +1,15 @@
-package BankingSystem_JAVA_Project;
+package BankingSystem__JAVA_Project;
 
 public class Account {
     private String accountNumber;
     private String accountHolderName;
+    private String pin;
     private double balance;
 
-    public Account(String accountNumber, String accountHolderName, double initialBalance) {
+    public Account(String accountNumber, String accountHolderName, String pin, double initialBalance) {
         this.accountNumber = accountNumber;
         this.accountHolderName = accountHolderName;
+        this.pin = pin;
         this.balance = initialBalance;
     }
 
@@ -17,6 +19,10 @@ public class Account {
 
     public String getAccountHolderName() {
         return accountHolderName;
+    }
+
+    public String getPin() {
+        return pin;
     }
 
     public double getBalance() {
@@ -35,5 +41,9 @@ public class Account {
             return true;
         }
         return false;
+    }
+
+    public boolean checkPin(String inputPin) {
+        return pin.equals(inputPin);
     }
 }

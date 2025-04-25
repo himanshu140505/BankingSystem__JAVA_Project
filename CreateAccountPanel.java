@@ -1,4 +1,8 @@
-package BankingSystem_JAVA_Project;
+package BankingSystem__JAVA_Project;
+
+import BankingSystem__JAVA_Project.BankingApplet;
+import BankingSystem__JAVA_Project.Bank;
+import BankingSystem__JAVA_Project.Utils;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -68,7 +72,7 @@ public class CreateAccountPanel extends Panel implements ActionListener {
             double deposit;
             try {
                 deposit = Double.parseDouble(depositStr);
-                if (!Utils.isValidAmount(deposit)) {
+                if (!Utils.isValidAmount(depositStr)) { // Pass depositStr (String) instead of deposit (double)
                     msgLabel.setText("Deposit must be greater than 0.");
                     return;
                 }
@@ -77,7 +81,7 @@ public class CreateAccountPanel extends Panel implements ActionListener {
                 return;
             }
 
-            int accNo = bank.createAccount(name, pin, deposit);
+            String accNo = bank.createAccount(name, pin, deposit);
             msgLabel.setForeground(Color.BLUE);
             msgLabel.setText("Account created! ID: " + accNo);
 
@@ -86,9 +90,8 @@ public class CreateAccountPanel extends Panel implements ActionListener {
             pinField.setText("");
             depositField.setText("");
         }
-
         if (e.getSource() == backBtn) {
-            applet.switchTo("login");
+            applet.showPanel("Login"); // Replace switchTo with showPanel
         }
     }
 }

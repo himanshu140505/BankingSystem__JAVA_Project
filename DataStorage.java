@@ -1,8 +1,10 @@
 package BankingSystem__JAVA_Project;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class DataStorage {
 
     private static final String FILE_NAME = "accounts.txt";
@@ -22,9 +24,9 @@ public class DataStorage {
     }
 
     // Find account by account number
-    public static Account getAccount(List<Account> accounts, int accountNumber) {
+    public static Account getAccount(List<Account> accounts, String accountNumber) {
         for (Account account : accounts) {
-            if (account.getAccountNumber() == accountNumber) {
+            if (account.getAccountNumber().equals(accountNumber)) {
                 return account;
             }
         }

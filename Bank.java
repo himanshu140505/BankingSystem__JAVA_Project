@@ -1,6 +1,7 @@
-package BankingSystem_JAVA_Project;
+package BankingSystem__JAVA_Project;
 
 import java.util.*;
+import java.io.IOException;
 
 public class Bank {
     private HashMap<String, Account> accounts;
@@ -11,7 +12,20 @@ public class Bank {
 
     // Save all accounts to persistent storage
     public void saveAccounts() {
-        DataStorage.saveAccounts(new ArrayList<>(accounts.values()));
+        try {
+            DataStorage.saveAccounts(accounts, "accounts.txt");
+        } catch (IOException e) {
+            System.out.println("Error saving accounts: " + e.getMessage());
+        }
+    }
+
+    // Load all accounts from persistent storage
+    public void loadAccounts() {
+        try {
+            accounts = DataStorage.loadAccounts("accounts.txt");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error loading accounts: " + e.getMessage());
+        }
     }
 
     // Retrieve an account by account number
@@ -20,12 +34,11 @@ public class Bank {
     }
 
     // Create a new account with name, pin, and initial deposit
-    public boolean createAccount(String accountNumber, String accountHolderName, double initialBalance) {
-        if (!accounts.containsKey(accountNumber)) {
-            accounts.put(accountNumber, new Account(accountNumber, accountHolderName, initialBalance));
-            return true;
-        }
-        return false;
+    public String createAccount(String accountHolderName, String pin, double initialBalance) {
+        String accountNumber = UUID.randomUUID().toString().substring(0, 8); // Generate unique account number
+        accounts.put(accountNumber, new Account(accountNumber, accountHolderName, pin, initialBalance));
+        saveAccounts();
+        return accountNumber;
     }
 
     // Deposit money into an account

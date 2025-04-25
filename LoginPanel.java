@@ -1,4 +1,7 @@
-package BankingSystem_JAVA_Project;
+package BankingSystem__JAVA_Project;
+
+import BankingSystem__JAVA_Project.BankingApplet;
+import BankingSystem__JAVA_Project.Bank;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,7 +17,7 @@ public class LoginPanel extends Panel implements ActionListener {
         this.applet = applet;
         this.bank = bank;
 
-        setLayout(new GridLayout(3, 2));
+        setLayout(new GridLayout(4, 2));
 
         Label accountLabel = new Label("Account Number:");
         add(accountLabel);
@@ -40,40 +43,29 @@ public class LoginPanel extends Panel implements ActionListener {
         messageLabel = new Label("");
         messageLabel.setForeground(Color.RED);
         add(messageLabel);
-
-        // Fill remaining cell in layout if needed
-        add(new Label(""));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            String accountNumberStr = accountNumberField.getText().trim();
+            String accountNumber = accountNumberField.getText().trim();
             String pin = pinField.getText().trim();
 
-            if (accountNumberStr.isEmpty() || pin.isEmpty()) {
+            if (accountNumber.isEmpty() || pin.isEmpty()) {
                 messageLabel.setText("Please enter both fields.");
-                return;
-            }
-
-            int accountNumber;
-            try {
-                accountNumber = Integer.parseInt(accountNumberStr);
-            } catch (NumberFormatException ex) {
-                messageLabel.setText("Invalid account number.");
                 return;
             }
 
             Account account = bank.getAccount(accountNumber);
 
             if (account != null && account.checkPin(pin)) {
-                applet.getAccountPanel().setAccount(account); // Set current account
-                applet.switchTo("account");                   // Show account panel
+                applet.getAccountPanel().setAccount(account);
+                applet.showPanel("Account");
             } else {
                 messageLabel.setText("Invalid account number or PIN.");
             }
         } else if (e.getSource() == backButton) {
-            applet.switchTo("createAccount");
+            applet.showPanel("Login");
         }
     }
 }

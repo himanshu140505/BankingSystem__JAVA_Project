@@ -1,4 +1,8 @@
-package BankingSystem_JAVA_Project;
+package BankingSystem__JAVA_Project;
+
+import BankingSystem__JAVA_Project.BankingApplet;
+import BankingSystem__JAVA_Project.Bank;
+import BankingSystem__JAVA_Project.Account;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -51,17 +55,33 @@ public class AccountPanel extends Panel {
     }
 
     private void deposit() {
-        double amount = Double.parseDouble(amountField.getText());
-        currentAccount.deposit(amount);
-        refreshBalance();
+        try {
+            double amount = Double.parseDouble(amountField.getText());
+            if (amount > 0) {
+                currentAccount.deposit(amount);
+                refreshBalance();
+            } else {
+                System.out.println("Amount must be greater than 0.");
+            }
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid amount entered.");
+        }
     }
 
     private void withdraw() {
-        double amount = Double.parseDouble(amountField.getText());
-        if (currentAccount.withdraw(amount)) {
-            refreshBalance();
-        } else {
-            System.out.println("Insufficient balance.");
+        try {
+            double amount = Double.parseDouble(amountField.getText());
+            if (amount > 0) {
+                if (currentAccount.withdraw(amount)) {
+                    refreshBalance();
+                } else {
+                    System.out.println("Insufficient balance.");
+                }
+            } else {
+                System.out.println("Amount must be greater than 0.");
+            }
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid amount entered.");
         }
     }
 }
