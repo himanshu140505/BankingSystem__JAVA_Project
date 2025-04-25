@@ -45,10 +45,14 @@ public class AccountPanel extends Panel {
         Button miniStatementButton = new Button("Mini Statement");
         miniStatementButton.addActionListener(e -> {
             if (currentAccount != null) {
+                double initialBalance = currentAccount.getInitialBalance(); // Retrieve initial balance
+                double finalBalance = currentAccount.getBalance(); // Retrieve final balance
                 applet.getMiniStatementPanel().displayStatement(
                     currentAccount.getAccountHolderName(),
                     currentAccount.getAccountNumber(),
-                    currentAccount.getTransactionHistory()
+                    currentAccount.getTransactionHistory(),
+                    initialBalance,
+                    finalBalance
                 );
                 applet.showPanel("MiniStatement");
             }

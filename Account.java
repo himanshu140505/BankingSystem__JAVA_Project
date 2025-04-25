@@ -10,6 +10,7 @@ public class Account implements Serializable {
     private String accountHolderName;
     private String pin;
     private double balance;
+    private double initialBalance; // Store the initial balance
     private List<String> transactionHistory = new ArrayList<>();
 
     public Account(String accountNumber, String accountHolderName, String pin, double initialBalance) {
@@ -17,6 +18,7 @@ public class Account implements Serializable {
         this.accountHolderName = accountHolderName;
         this.pin = pin;
         this.balance = initialBalance;
+        this.initialBalance = initialBalance; // Initialize the initial balance
     }
 
     public String getAccountNumber() {
@@ -33,6 +35,10 @@ public class Account implements Serializable {
 
     public double getBalance() {
         return balance;
+    }
+
+    public double getInitialBalance() {
+        return initialBalance;
     }
 
     public void deposit(double amount) {

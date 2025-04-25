@@ -22,13 +22,16 @@ public class MiniStatementPanel extends Panel {
         add(backButton, BorderLayout.SOUTH);
     }
 
-    public void displayStatement(String accountHolderName, String accountNumber, List<String> transactions) {
+    public void displayStatement(String accountHolderName, String accountNumber, List<String> transactions, double initialBalance, double finalBalance) {
         statementArea.setText(""); // Clear previous statement
         statementArea.append("====================================\n");
         statementArea.append("               MINI-STATEMENT\n");
         statementArea.append("====================================\n");
         statementArea.append(String.format("Account Holder Name: %s\n", accountHolderName));
         statementArea.append(String.format("Account Number:      %s\n", accountNumber));
+        statementArea.append("====================================\n");
+        statementArea.append(String.format("Initial Balance:     %.2f\n", initialBalance));
+        statementArea.append(String.format("Final Balance:       %.2f\n", finalBalance));
         statementArea.append("====================================\n");
         statementArea.append("Last 10 Transactions:\n");
 
